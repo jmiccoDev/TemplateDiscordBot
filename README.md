@@ -4,10 +4,10 @@
 
 A template for creating a Discord bot using Discord.js. This template includes command and event handling, database connection, and command deployment.
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/TemplateDiscordBot?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/TemplateDiscordBot?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/TemplateDiscordBot)
-![GitHub license](https://img.shields.io/github/license/yourusername/TemplateDiscordBot)
+![GitHub stars](https://img.shields.io/github/stars/jmiccoDev/TemplateDiscordBot?style=social)
+![GitHub forks](https://img.shields.io/github/forks/jmiccoDev/TemplateDiscordBot?style=social)
+![GitHub issues](https://img.shields.io/github/issues/jmiccoDev/TemplateDiscordBot)
+![GitHub license](https://img.shields.io/github/license/jmiccoDev/TemplateDiscordBot)
 
 </div>
 
@@ -22,7 +22,7 @@ A template for creating a Discord bot using Discord.js. This template includes c
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/TemplateDiscordBot.git
+    git clone https://github.com/jmiccoDev/TemplateDiscordBot.git
     cd TemplateDiscordBot
     ```
 
