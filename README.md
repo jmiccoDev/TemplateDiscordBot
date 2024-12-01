@@ -11,6 +11,14 @@ A template for creating a Discord bot using Discord.js. This template includes c
 
 </div>
 
+## Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [FAQ](#faq)
+- [License](#license)
+
 ## Features
 
 - Command handling (slash and context commands)
