@@ -1,0 +1,15 @@
+{
+    "DEV_MODE": false,
+    "config": {
+        "token": "YOUR_TOKEN_HERE",
+        "clientId": "BOT_CLIENT_ID",
+        "guildIds": ["GUILD_ID", "GUILD_ID"]
+    },
+    "ownerID": "YOUR_DISCORD_ID",
+    "activity": {
+        "name": "with mirko.live",
+        "type": "PLAYING"
+    },
+    "embedColor": "Red",
+    "logChannelID": "LOG_CHANNEL_ID"
+}

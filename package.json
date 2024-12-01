@@ -1,0 +1,21 @@
+{
+  "name": "templatediscordbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "load": "node utility/deploy.js",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "mysql2": "^3.11.5",
+    "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^9.16.0"
+  }
+}
