@@ -4,8 +4,8 @@
 
 A template for creating a Discord bot using Discord.js. This template includes command and event handling, database connection, and command deployment.
 
-![GitHub stars](https://img.shields.io/github/stars/jmiccoDev/TemplateDiscordBot?style=social)
-![GitHub forks](https://img.shields.io/github/forks/jmiccoDev/TemplateDiscordBot?style=social)
+![GitHub stars](https://img.shields.io/github/stars/jmiccoDev/TemplateDiscordBot)
+![GitHub forks](https://img.shields.io/github/forks/jmiccoDev/TemplateDiscordBot)
 ![GitHub issues](https://img.shields.io/github/issues/jmiccoDev/TemplateDiscordBot)
 ![GitHub license](https://img.shields.io/github/license/jmiccoDev/TemplateDiscordBot)
 
