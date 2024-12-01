@@ -46,6 +46,10 @@ A template for creating a Discord bot using Discord.js. This template includes c
     ```sh
     node index.js
     ```
+    or
+    ```sh
+    npm run dev
+    ```
 
 ## Usage
 
