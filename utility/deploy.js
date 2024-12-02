@@ -8,17 +8,20 @@ async function deployCommands() {
     const guildCommands = [];
     const foldersPath = path.join(__dirname, '..', 'commands');
 
-    // Ensure guildIds is always an array
-    const normalizedGuildIds = Array.isArray(guildIds) ? guildIds : guildIds ? [guildIds] : [];
+    // Recursive function to load commands from nested folders
+    const loadCommandsRecursively = (folderPath) => {
+        const items = fs.readdirSync(folderPath);
 
-    // Read commands from both context and slash directories
-    for (const folder of ['context', 'slash']) {
-        const folderPath = path.join(foldersPath, folder, 'public');
-        if (fs.existsSync(folderPath)) {
-            const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));
-            for (const file of commandFiles) {
-                const filePath = path.join(folderPath, file);
-                const command = require(filePath);
+        for (const item of items) {
+            const itemPath = path.join(folderPath, item);
+            const isDirectory = fs.statSync(itemPath).isDirectory();
+
+            if (isDirectory) {
+                // Recursively process subdirectories
+                loadCommandsRecursively(itemPath);
+            } else if (item.endsWith('.js')) {
+                // Load command file
+                const command = require(itemPath);
                 if ('data' in command && 'execute' in command) {
                     if (command.global === true) {
                         globalCommands.push(command.data.toJSON());
@@ -26,9 +29,20 @@ async function deployCommands() {
                         guildCommands.push(command.data.toJSON());
                     }
                 } else {
-                    console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+                    console.log(`[WARNING] The command at ${itemPath} is missing a required "data" or "execute" property.`);
                 }
             }
+        }
+    };
+
+    // Ensure guildIds is always an array
+    const normalizedGuildIds = Array.isArray(guildIds) ? guildIds : guildIds ? [guildIds] : [];
+
+    // Load commands from both context and slash directories
+    for (const folder of ['context', 'slash']) {
+        const folderPath = path.join(foldersPath, folder);
+        if (fs.existsSync(folderPath)) {
+            loadCommandsRecursively(folderPath);
         }
     }
 
