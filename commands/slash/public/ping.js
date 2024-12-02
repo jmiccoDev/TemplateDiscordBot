@@ -19,7 +19,6 @@ module.exports = {
       const sent = await interaction.reply({ content: 'Pinging...', fetchReply: true });
       const responseTime = sent.createdTimestamp - interaction.createdTimestamp;
 
-      // Creazione dell'embed
       const embed = new EmbedBuilder()
         .setColor(Colors[embedColor])
         .setTitle('🏓 Pong!')
