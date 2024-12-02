@@ -7,7 +7,6 @@
   const { config: { token } } = require('./src/discord-config.json');
   const { deployCommands } = require('./utility/deploy.js');
   const { connectDatabase } = require('./modules/database-module.js');
-  const robloxAPI = require('./modules/noblox-module.js');
 
   const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
