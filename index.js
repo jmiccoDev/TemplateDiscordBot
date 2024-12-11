@@ -5,10 +5,20 @@
   const path = require('node:path');
   const { Client, Collection, GatewayIntentBits } = require('discord.js');
   const { config: { token } } = require('./src/discord-config.json');
-  const { deployCommands } = require('./utility/deploy.js');
+  const { deployCommands, updateCommandsForNewGuild } = require('./utility/deploy.js');
   const { connectDatabase } = require('./modules/database-module.js');
 
-  const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+  const client = new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.DirectMessages,
+      GatewayIntentBits.GuildMembers,
+      GatewayIntentBits.GuildPresences,
+      GatewayIntentBits.GuildModeration,
+      GatewayIntentBits.MessageContent,
+    ],
+  });
 
   client.commands = new Collection();
   client.cooldowns = new Collection();
@@ -105,6 +115,11 @@
           });
         }
       }
+
+      client.on('guildCreate', async (guild) => {
+        console.log(`Bot added to a new guild: ${guild.name}`);
+        await updateCommandsForNewGuild(guild.id);
+      });
     }
     catch (error) {
       console.error(chalk.red('✖ Error loading events:', error));
@@ -118,19 +133,17 @@
     }
   }
 
+  await loadEvents(path.join(__dirname, 'events'));
+  await loadCommands(path.join(__dirname, 'commands'));
+
+  process.on('unhandledRejection', error => {
+    console.error('Unhandled promise rejection:', error);
+  });
+
   try {
     console.log(chalk.blue.bold(`\n┌──────────────────────────────┐`));
     console.log(chalk.blue.bold(`│       Initializing Bot       │`));
     console.log(chalk.blue.bold(`└──────────────────────────────┘\n`));
-
-    await loadCommands(path.join(__dirname, 'commands'));
-    await loadEvents(path.join(__dirname, 'events'));
-
-    console.log(chalk.blue.bold('\n┌──────────────────────────────┐'));
-    console.log(chalk.blue.bold('│    Deploying Commands...     │'));
-    console.log(chalk.blue.bold('└──────────────────────────────┘'));
-    await deployCommands();
-    console.log(chalk.green('\n✔ Commands deployed successfully.\n'));
 
     console.log(chalk.blue.bold('\n┌──────────────────────────────┐'));
     console.log(chalk.blue.bold('│  Connecting to Database...   │'));
@@ -139,10 +152,21 @@
     console.log(chalk.green('\n✔ Database connected successfully.\n'));
 
     console.log(chalk.blue.bold('\n┌──────────────────────────────┐'));
+    console.log(chalk.blue.bold('│    Deploying Commands...     │'));
+    console.log(chalk.blue.bold('└──────────────────────────────┘'));
+    await deployCommands(client);
+    console.log(chalk.green('\n✔ Commands deployed successfully.\n'));
+
+    console.log(chalk.blue.bold('\n┌──────────────────────────────┐'));
     console.log(chalk.blue.bold('│         Logging in...         │'));
     console.log(chalk.blue.bold('└──────────────────────────────┘'));
     await client.login(token);
     console.log(chalk.green('\n✔ Bot logged in successfully.\n'));
+
+    console.log(chalk.blue.bold('\n┌──────────────────────────────┐'));
+    console.log(chalk.blue.bold('│       Bot is now ready!      │'));
+    console.log(chalk.blue.bold('└──────────────────────────────┘\n'));
+
   }
   catch (error) {
     console.error(chalk.red.bold('✖ An error occurred during bot initialization:', error.stack));
