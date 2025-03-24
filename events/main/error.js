@@ -1,5 +1,5 @@
 const { Events, EmbedBuilder } = require('discord.js');
-const { logChannelID, embedColor } = require('../../src/discord-config');
+const { channels, embedColor } = require('../../src/discord-config.json');
 
 module.exports = {
   name: Events.Error,
@@ -29,9 +29,9 @@ module.exports = {
     }
 
     // Log error to designated channel
-    if (logChannelID) {
+    if (channels.logChannelID) {
       try {
-        const logChannel = await client.channels.fetch(logChannelID);
+        const logChannel = await client.channels.fetch(channels.logChannelID);
         if (logChannel) {
           const embed = new EmbedBuilder()
             .setColor(embedColor)
