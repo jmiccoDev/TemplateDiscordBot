@@ -1,27 +1,43 @@
 const mysql = require('mysql2');
-const { host, port, user, password, database } = require('../src/database-config.json');
+const { host, port, user, password, database, ENABLED } = require('../src/database-config.json');
 
-const connection = mysql.createConnection({
-  host: host,
-  port: port,
-  user: user,
-  password: password,
-  database: database,
-});
+let pool;
+
+if (ENABLED) {
+  pool = mysql.createPool({
+    host: host,
+    port: port,
+    user: user,
+    password: password,
+    database: database,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+  });
+}
 
 async function connectDatabase() {
-  connection.connect((err) => {
+  if (!ENABLED) {
+    console.log('Database connection is disabled.');
+    return;
+  }
+  pool.getConnection((err, connection) => {
     if (err) {
       console.log('Error connecting to database: ' + err.stack);
       return;
     }
     console.log('Connected to database as id ' + connection.threadId);
+    connection.release();
   });
 }
 
 async function makeQuery(query) {
+  if (!ENABLED) {
+    console.log('Database connection is disabled.');
+    return;
+  }
   return new Promise((resolve, reject) => {
-    connection.query(query, (err, result) => {
+    pool.query(query, (err, result) => {
       if (err) {
         console.log('Error making query: ' + err.stack);
         reject(err);
@@ -32,10 +48,14 @@ async function makeQuery(query) {
 }
 
 async function createRecord(table, columns, values) {
+  if (!ENABLED) {
+    console.log('Database connection is disabled.');
+    return;
+  }
   return new Promise((resolve, reject) => {
     const formattedValues = values.map(value => typeof value === 'string' ? `'${value}'` : value);
     const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${formattedValues.join(', ')})`;
-    connection.query(query, (err, result) => {
+    pool.query(query, (err, result) => {
       if (err) {
         console.log('Error creating record: ' + err.stack);
         reject(err);
@@ -46,10 +66,14 @@ async function createRecord(table, columns, values) {
 }
 
 async function updateRecord(table, columns, values, condition) {
+  if (!ENABLED) {
+    console.log('Database connection is disabled.');
+    return;
+  }
   return new Promise((resolve, reject) => {
     const setClause = columns.map(column => `${column} = ?`).join(', ');
     const query = `UPDATE ${table} SET ${setClause} WHERE ${condition}`;
-    connection.query(query, values, (err, result) => {
+    pool.query(query, values, (err, result) => {
       if (err) {
         console.error('Error updating record:', err.stack);
         reject(err);
