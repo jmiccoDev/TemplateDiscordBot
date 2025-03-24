@@ -1,5 +1,5 @@
 const { Events, EmbedBuilder, userMention, channelMention } = require('discord.js');
-const { logChannelID } = require('../../src/discord-config.json');
+const { channels } = require('../../src/discord-config.json');
 
 // Color assignments for each interaction type
 const INTERACTION_COLORS = {
@@ -17,7 +17,7 @@ module.exports = {
   async execute(interaction) {
     if (!interaction.inCachedGuild()) return;
 
-    const logChannel = interaction.client.channels.cache.get(logChannelID);
+    const logChannel = interaction.client.channels.cache.get(channels.logChannelID);
 
     if (!logChannel) {
       console.error('Log channel not found!');
