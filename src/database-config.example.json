@@ -1,4 +1,7 @@
 {
+
+    "ENABLED": false,
+
     "host": "localhost",
     "user": "db-username",
     "password": "db-password",

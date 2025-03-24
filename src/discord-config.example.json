@@ -1,5 +1,11 @@
 {
     "DEV_MODE": false,
+
+    "channels": {
+        "errorLogs": "ERROR_LOGS_CHANNEL_ID",
+        "logChannelID": "LOG_CHANNEL_ID"
+    },
+
     "config": {
         "token": "YOUR_TOKEN_HERE",
         "clientId": "BOT_CLIENT_ID",
@@ -10,6 +16,5 @@
         "name": "with mirko.live",
         "type": "PLAYING"
     },
-    "embedColor": "Red",
-    "logChannelID": "LOG_CHANNEL_ID"
+    "embedColor": "Red"
 }
